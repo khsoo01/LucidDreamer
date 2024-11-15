@@ -569,6 +569,7 @@ class LucidDreamer:
                     'image': Image.fromarray(np.round(imagej*255.).astype(np.uint8)), 
                     'transform_matrix': Pc2w.tolist(),
                 })
+                os.makedirs('outputs/debug', exist_ok=True)
                 traindata['frames'][-1]['image'].save(f'outputs/debug/{idx+1}.png')
 
         progress(1, desc='[3/4] Baking Gaussians...')
