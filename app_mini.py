@@ -36,7 +36,7 @@ if len(glob.glob(os.path.join(d, '*.ply'))) < 8:
 
 d = os.path.join(ckpt_root, 'SD1-5')
 if not os.path.exists(d):
-    snapshot_download(repo_id="runwayml/stable-diffusion-inpainting", repo_type="model", local_dir=d, local_dir_use_symlinks=use_symlinks)
+    snapshot_download(repo_id="benjamin-paine/stable-diffusion-v1-5-inpainting", repo_type="model", local_dir=d, local_dir_use_symlinks=use_symlinks)
 
 try:
     import simple_knn
