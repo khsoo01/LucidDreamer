@@ -336,6 +336,7 @@ class LucidDreamer:
             image_in, mask_in = np.zeros((in_res, in_res, 3), dtype=np.uint8), 255*np.ones((in_res, in_res, 3), dtype=np.uint8)
             image_in[int(in_res/2-h_in/2):int(in_res/2+h_in/2), int(in_res/2-w_in/2):int(in_res/2+w_in/2)] = np.array(rgb_cond)
             mask_in[int(in_res/2-h_in/2):int(in_res/2+h_in/2), int(in_res/2-w_in/2):int(in_res/2+w_in/2)] = 0
+            mask_in = 255 - mask_in
 
             image2 = np.array(Image.fromarray(image_in).resize((self.cam.W, self.cam.H))).astype(float) / 255.0
             mask2 = np.array(Image.fromarray(mask_in).resize((self.cam.W, self.cam.H))).astype(float) / 255.0
@@ -352,13 +353,13 @@ class LucidDreamer:
             else: # w <= h
                 image_curr = rgb_cond.crop((0, int(h_in/2-w_in/2), w_in, int(h_in/2+w_in/2))).resize((self.cam.W, self.cam.H))
 
-        render_poses = get_pcdGenPoses(pcdgenpath)
-        depth_curr = self.d(image_curr)
-        center_depth = np.mean(depth_curr[h_in//2-10:h_in//2+10, w_in//2-10:w_in//2+10])
-
         ###########################################################################################################################
         # Iterative scene generation
         H, W, K = self.cam.H, self.cam.W, self.cam.K
+
+        render_poses = get_pcdGenPoses(pcdgenpath)
+        depth_curr = self.d(image_curr)
+        center_depth = np.mean(depth_curr[H//2-10:H//2+10, W//2-10:W//2+10])
 
         x, y = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32), indexing='xy') # pixels
         edgeN = 2
