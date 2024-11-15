@@ -26,6 +26,8 @@
 
 namespace cg = cooperative_groups;
 
+const float FLT_MAX=3.402823466e+38F;
+
 struct CustomMin
 {
 	__device__ __forceinline__
